@@ -43,7 +43,7 @@ public class PlayerService extends Service {
 	@Override
 	public void onCreate(){
 		super.onCreate();
-		//ç»‘å®šå¹¿æ’­æ¥æ”¶å™¨ï¼Œå¯ä»¥æ¥æ”¶å¹¿æ’­
+		//°ó¶¨¹ã²¥½ÓÊÕÆ÷£¬¿ÉÒÔ½ÓÊÕ¹ã²¥
 		bindCommandReceiver();
 		Toast.makeText(this, "PlayerService.onCreate()", Toast.LENGTH_SHORT)
 		.show();
@@ -54,25 +54,25 @@ public class PlayerService extends Service {
 	}
 	@Override
 	public void onDestroy(){
-		//é‡Šæ”¾æ’­æ”¾å™¨èµ„æº
+		//ÊÍ·Å²¥·ÅÆ÷×ÊÔ´
 		if(player2 !=null){
 			player2.release();
 		}
 		super.onDestroy();
 	}
-	/**ç»‘å®šå¹¿æ’­æ¥æ”¶å™¨*/
+	/**°ó¶¨¹ã²¥½ÓÊÕÆ÷*/
 	private void bindCommandReceiver(){
 		receiver = new CommandReceiver();
 		IntentFilter filter = new IntentFilter(BROADCAST_MUSICSERVICE_CONTROL);
 		registerReceiver(receiver,filter);
 	}
 	
-	/**æ¥æ”¶å¹¿æ’­å‘½ä»¤ï¼Œå¹¶æ‰§è¡Œ*/
+	/**½ÓÊÕ¹ã²¥ÃüÁî£¬²¢Ö´ĞĞ*/
 	class CommandReceiver extends BroadcastReceiver{
 		public void onReceive(Context context, Intent intent) {
-			// è·å–å‘½ä»¤è¡Œ
+			// »ñÈ¡ÃüÁîĞĞ
 			int command = intent.getIntExtra("command", COMMAND_UNKNOWN);
-			//æ‰§è¡Œå‘½ä»¤
+			//Ö´ĞĞÃüÁî
 			switch (command){
 			case COMMAND_SEEK_TO:
 				seekTo(intent.getIntExtra("time",0));
@@ -81,7 +81,7 @@ public class PlayerService extends Service {
 			case COMMAND_PREVIOUS:				
 			case COMMAND_NEXT:
 				int number = intent.getIntExtra("number", 1);
-				Toast.makeText(PlayerService.this,"æ­£åœ¨æ’­æ”¾ç¬¬" + number + "é¦–" , Toast.LENGTH_SHORT).show();
+				Toast.makeText(PlayerService.this,"ÕıÔÚ²¥·ÅµÚ" + number + "Ê×" , Toast.LENGTH_SHORT).show();
 				play(number);
 				break;
 			case COMMAND_PAUSE:
@@ -106,7 +106,7 @@ public class PlayerService extends Service {
 		}
 		
 	}
-	/**å‘é€å¹¿æ’­ï¼Œæé†’çŠ¶æ€æ”¹å˜äº†*/
+	/**·¢ËÍ¹ã²¥£¬ÌáĞÑ×´Ì¬¸Ä±äÁË*/
 	private void sendBroadcastOnStatusChanged(int status){
 		Intent intent = new Intent(BROADCAST_MUSICSERVICE_UPDATE_STATUS);
 		intent.putExtra("status", status);
@@ -118,21 +118,21 @@ public class PlayerService extends Service {
 	}
 	
 	
-	/**è¯»å–éŸ³ä¹æ–‡ä»¶*/
+	/**¶ÁÈ¡ÒôÀÖÎÄ¼ş*/
 	private void load(int number){
 		if (player2 != null){
 			player2.release();
 		}
 		Uri musicUri = Uri.withAppendedPath(
 				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, "" + number);
-		//è¯»å–éŸ³ä¹æ–‡ä»¶ï¼Œåˆ›å»ºMediaPlayerå¯¹è±¡
+		//¶ÁÈ¡ÒôÀÖÎÄ¼ş£¬´´½¨MediaPlayer¶ÔÏó
 		player2 = MediaPlayer.create(this, musicUri);
 		
-		//æ³¨å†Œç›‘å¬å™¨
+		//×¢²á¼àÌıÆ÷
 		player2.setOnCompletionListener(completionListener);
 	}
 	
-	//æ’­æ”¾ç»“æŸç›‘å¬å™¨
+	//²¥·Å½áÊø¼àÌıÆ÷
 	OnCompletionListener completionListener = new OnCompletionListener() {
 		@Override
 		public void onCompletion(MediaPlayer player){
@@ -144,9 +144,9 @@ public class PlayerService extends Service {
 		}
 	};
 	
-	/**æ’­æ”¾éŸ³ä¹*/
+	/**²¥·ÅÒôÀÖ*/
 	private void play(int number){
-		//åœæ­¢å½“å‰æ’­æ”¾
+		//Í£Ö¹µ±Ç°²¥·Å
 		if(player2 != null && player2.isPlaying()){
 			player2.stop();
 		}
@@ -155,7 +155,7 @@ public class PlayerService extends Service {
 		sendBroadcastOnStatusChanged(PlayerService.STATUS_PLAYING);
 	}
 	
-	/**æš‚åœéŸ³ä¹*/
+	/**ÔİÍ£ÒôÀÖ*/
 	private void pause(){
 		if(player2.isPlaying()){
 			player2.pause();
@@ -175,13 +175,13 @@ public class PlayerService extends Service {
 		sendBroadcastOnStatusChanged(PlayerService.STATUS_PLAYING);
 	}
 	
-	/**å®Œæˆä¹‹åé‡æ–°æ’­æ”¾*/
+	/**Íê³ÉÖ®ºóÖØĞÂ²¥·Å*/
 	private void replay(){
 		player2.start();
 		sendBroadcastOnStatusChanged(PlayerService.STATUS_PLAYING);
 	}
 	
-	/**è·³è½¬è‡³æ’­æ”¾ä½ç½®*/
+	/**Ìø×ªÖÁ²¥·ÅÎ»ÖÃ*/
 	private void seekTo(int time){
 		if (player2 != null){
 			player2.seekTo(time);

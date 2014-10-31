@@ -10,18 +10,18 @@ import android.content.Context;
 public class PropertyBean {
 	public static String[] THEMES;
 	public static String DEFAULT_THEME;
-	//åº”ç”¨ä¸Šä¸‹æ–‡
+	//Ó¦ÓÃÉÏÏÂÎÄ
 	private Context context;
-	//ä¸»é¢˜
+	//Ö÷Ìâ
 	private String theme;
 	public PropertyBean(Context context) {
 		this.context = context;
-		//è·å–array.xmlä¸­çš„ä¸»é¢˜åç§°
+		//»ñÈ¡array.xmlÖĞµÄÖ÷ÌâÃû³Æ
 		THEMES = context.getResources().getStringArray(R.array.theme);
 		DEFAULT_THEME = THEMES[1];
 		loadTheme();
 	}
-	/**è¯»å–ä¸»é¢˜ã€‚ä¿å­˜åœ¨æ–‡ä»¶"configuration.cfg"*/
+	/**¶ÁÈ¡Ö÷Ìâ¡£±£´æÔÚÎÄ¼ş"configuration.cfg"*/
 	private void loadTheme(){
 		Properties properties =new Properties(); 
 		try{
@@ -30,11 +30,11 @@ public class PropertyBean {
 			theme= properties.getProperty("theme").toString();
 
 		} catch (Exception e){
-			saveTheme(DEFAULT_THEME);//é»˜è®¤å€¼
+			saveTheme(DEFAULT_THEME);//Ä¬ÈÏÖµ
 		}
 	}
 	
-	/**ä¿å­˜ä¸»é¢˜ã€‚ä¿å­˜åœ¨æ–‡ä»¶"configuration.cfg"ä¸­*/
+	/**±£´æÖ÷Ìâ¡£±£´æÔÚÎÄ¼ş"configuration.cfg"ÖĞ*/
 	private boolean saveTheme(String theme){
 		Properties properties =new Properties(); 
 		properties.put("theme", theme);
